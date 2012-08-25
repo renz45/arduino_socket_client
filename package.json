@@ -1,0 +1,21 @@
+{
+  "name": "hubot_arduino_client",
+  "version": "0.0.1",
+  "description": "This app runs on a computer attached to an arduino and triggers commands based on responses from the api",
+  "author": {
+    "name": "Adam Rensel",
+    "email": "adamrensel@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "dependencies": {
+    "socket.io": "0.9.10",
+    "socket.io-client": "0.9.10"
+  },
+  "engines": {
+    "node": "0.6.19",
+    "npm": "1.1.24"
+  }
+}
