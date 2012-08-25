@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <title>Arduino socket</title>
+  <script src="http://code.jquery.com/jquery-1.8.0.min.js"></script>
+</head>
+<body>
+  <button id='on'>On</button>
+  <button id='off'>Off</button>
+  <script src="node_modules/socket.io/node_modules/socket.io-client/dist/socket.io.js"></script>
+  <script>
+    var socket = io.connect('http://localhost:8080');
+    socket.on('news', function (data) {
+      console.log(data);
+      socket.emit('my other event', { my: 'data' });
+    });
+
+    $('#on').on('click', function(evt){
+      socket.emit('console_message', {message: 'turning this bitch on.'})
+    });
+
+  </script>
+</body>
+</html>
