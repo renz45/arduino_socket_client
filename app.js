@@ -24,3 +24,17 @@ socket.on('command', function (data) {
     socket.emit('led_state', { led: 'on'});
   }
 });
+
+socket.on('all_on', function (data) {
+  if(data) {
+    console.log('TURN THEM ALL ON');
+    for(var i = 0; i <= 13; i++) {
+      new arduino.Led({board: board,pin: i}).on();
+    }
+  }else{
+    console.log('TURN THEM ALL OFF');
+    for(var i = 0; i <= 13; i++) {
+      new arduino.Led({board: board,pin: i}).off();
+    }
+  }
+});
