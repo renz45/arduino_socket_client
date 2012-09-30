@@ -1,3 +1,5 @@
+var pinSwitchDelay = 300;
+
 var arduino = require('duino'),
     board = new arduino.Board();
 
@@ -15,26 +17,38 @@ socket.on('command', function (data) {
     board: board,
     pin: data.pin
   });
-
+  console.log(data.state);
   if(data.state === 'high') {
+    console.log('led on');
     led.on();
     socket.emit('led_state', { led: 'on'});
   }else if(data.state === 'low'){
+    console.log('led off');
     led.off();
     socket.emit('led_state', { led: 'on'});
   }
 });
 
-socket.on('all_on', function (data) {
-  if(data) {
-    console.log('TURN THEM ALL ON');
-    for(var i = 0; i <= 13; i++) {
-      new arduino.Led({board: board,pin: i}).on();
-    }
-  }else{
-    console.log('TURN THEM ALL OFF');
-    for(var i = 0; i <= 13; i++) {
-      new arduino.Led({board: board,pin: i}).off();
-    }
-  }
+delayedLedToggle = function(ledArray, lastLedLit){
+  setTimeout(function(){
+    ledArray[lastLedLit].on()
+    setTimeout(function(){
+      ledArray[lastLedLit].off()
+      if(ledArray.length - 1 > lastLedLit){
+        delayedLedToggle(ledArray, lastLedLit + 1)
+      }
+    },pinSwitchDelay)
+  }, pinSwitchDelay)
+}
+
+socket.on('toggle_all', function (data) {
+  pins = [0,13,11,10,9,8];
+
+  ledArray = [new arduino.Led({board: board,pin: 13}),
+              new arduino.Led({board: board,pin: 11}),
+              new arduino.Led({board: board,pin: 10}),
+              new arduino.Led({board: board,pin: 9}),
+              new arduino.Led({board: board,pin: 8})];
+
+  delayedLedToggle(ledArray, 0)
 });
