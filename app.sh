@@ -1,4 +1,4 @@
 #!/bin/sh
 
-
-arduino_socket_server/node_s arduino_socket_server/app.js & wait
+basedir=`dirname "$0"`
+$basedir/node $basedir/app.js & wait
