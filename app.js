@@ -4,7 +4,7 @@ var arduino = require('duino'),
     board = new arduino.Board();
 
 var io = require('socket.io-client');
-var socket = io.connect('http://renz45.arduino_socket_client.nodejitsu.com:80');
+var socket = io.connect('http://adamrensel.arduino_socket_client.nodejitsu.com:80');
 
 socket.on('connect_failed', function(error){
   console.log('Connection Failed');
@@ -42,13 +42,12 @@ delayedLedToggle = function(ledArray, lastLedLit){
 }
 
 socket.on('toggle_all', function (data) {
-  pins = [0,13,11,10,9,8];
-
   ledArray = [new arduino.Led({board: board,pin: 13}),
               new arduino.Led({board: board,pin: 11}),
               new arduino.Led({board: board,pin: 10}),
               new arduino.Led({board: board,pin: 9}),
               new arduino.Led({board: board,pin: 8})];
 
+  console.log('Lights toggle')
   delayedLedToggle(ledArray, 0)
 });
